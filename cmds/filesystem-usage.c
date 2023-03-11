@@ -1307,7 +1307,7 @@ void print_device_chunks(struct device_info *devinfo,
 		num_stripes = chunks_info_ptr[i].num_stripes;
 
 		if (btrfs_bg_type_is_stripey(profile)) {
-			pr_verbose(LOG_DEFAULT, "   %s,%s/%llu:%*s%10s\n",
+			pr_verbose(LOG_DEFAULT, "   %s,%s/%llu:%*s%20s\n",
 				   description,
 				   r_mode,
 				   num_stripes,
@@ -1315,7 +1315,7 @@ void print_device_chunks(struct device_info *devinfo,
 						 - count_digits(num_stripes) - 1), "",
 				   pretty_size_mode(size, unit_mode));
 		} else {
-			pr_verbose(LOG_DEFAULT, "   %s,%s:%*s%10s\n",
+			pr_verbose(LOG_DEFAULT, "   %s,%s:%*s%20s\n",
 				   description,
 				   r_mode,
 				   (int)(20 - strlen(description) - strlen(r_mode)), "",
@@ -1325,7 +1325,7 @@ void print_device_chunks(struct device_info *devinfo,
 		allocated += size;
 
 	}
-	pr_verbose(LOG_DEFAULT, "   Unallocated: %*s%10s\n",
+	pr_verbose(LOG_DEFAULT, "   Unallocated: %*s%20s\n",
 		(int)(20 - strlen("Unallocated")), "",
 		pretty_size_mode(devinfo->size - allocated,
 			unit_mode | UNITS_NEGATIVE));
@@ -1333,10 +1333,10 @@ void print_device_chunks(struct device_info *devinfo,
 
 void print_device_sizes(struct device_info *devinfo, unsigned unit_mode)
 {
-	pr_verbose(LOG_DEFAULT, "   Device size: %*s%10s\n",
+	pr_verbose(LOG_DEFAULT, "   Device size: %*s%20s\n",
 		(int)(20 - strlen("Device size")), "",
 		pretty_size_mode(devinfo->device_size, unit_mode));
-	pr_verbose(LOG_DEFAULT, "   Device slack: %*s%10s\n",
+	pr_verbose(LOG_DEFAULT, "   Device slack: %*s%20s\n",
 		(int)(20 - strlen("Device slack")), "",
 		pretty_size_mode(calc_slack_size(devinfo), unit_mode));
 }
