@@ -793,7 +793,7 @@ static int load_device_info(int fd, struct device_info **devinfo_ret,
 		 * a non-root process calls dev_to_fsid(path)->open(path).
 		 */
 		ret = device_is_seed(fd, (const char *)dev_info.path, i, fi_args.fsid);
-		if (!ret)
+		if (ret)
 			continue;
 
 		info[ndevs].devid = dev_info.devid;
