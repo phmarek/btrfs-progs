@@ -51,6 +51,7 @@ int pretty_size_snprintf(u64 size, char *str, size_t str_size, unsigned unit_mod
 	const char** suffix = NULL;
 	u64 last_size;
 	int negative;
+	int is_integer;
 
 	if (str_size == 0)
 		return 0;
@@ -84,6 +85,7 @@ int pretty_size_snprintf(u64 size, char *str, size_t str_size, unsigned unit_mod
 	}
 
 	num_divs = 0;
+	is_integer = (unit_mode & UNITS_MODE_MASK) <= UNITS_KBYTES;
 	last_size = size;
 	switch (unit_mode & UNITS_MODE_MASK) {
 	case UNITS_TBYTES:
@@ -103,6 +105,7 @@ int pretty_size_snprintf(u64 size, char *str, size_t str_size, unsigned unit_mod
 		break;
 	case UNITS_BYTES:
 		base = 1;
+		is_integer = 1;
 		num_divs = 0;
 		break;
 	default:
@@ -145,7 +148,9 @@ int pretty_size_snprintf(u64 size, char *str, size_t str_size, unsigned unit_mod
 		fraction = (float)last_size / base;
 	}
 
-	return snprintf(str, str_size, "%.2f%s", fraction, suffix[num_divs]);
+	return is_integer ?
+		snprintf(str, str_size, "%lld%s", (u64)fraction, suffix[num_divs]) :
+		snprintf(str, str_size, "%.2f%s", fraction, suffix[num_divs]);
 }
 
 void units_set_mode(unsigned *units, unsigned mode)
